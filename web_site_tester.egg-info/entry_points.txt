@@ -1,0 +1,2 @@
+[console_scripts]
+web-site-tester = web_site_tester.cli:main

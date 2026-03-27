@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: web-site-tester
+Version: 1.0.0
+Summary: Passive website security audit CLI
+Author: Ahmet
+Keywords: security,audit,cli,kali,linux,headers,passive
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Environment :: Console
+Classifier: Topic :: Security
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: requests>=2.31.0
+Requires-Dist: beautifulsoup4>=4.12.0
+Requires-Dist: colorama>=0.4.6
