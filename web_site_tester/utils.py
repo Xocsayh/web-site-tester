@@ -15,12 +15,12 @@ def clamp_score(score: int) -> int:
 
 
 def detect_level(score: int) -> str:
-    if score >= 90:
-        return "excellent"
-    if score >= 75:
+    if score >= 85:
         return "good"
-    if score >= 60:
-        return "warning"
+    if score >= 70:
+        return "fair"
+    if score >= 50:
+        return "needs_improvement"
     return "critical"
 
 

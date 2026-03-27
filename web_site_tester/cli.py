@@ -28,7 +28,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--url", required=True, help="Target website URL")
     parser.add_argument("--timeout", type=int, default=8, help="Request timeout in seconds")
-    parser.add_argument("--threshold", type=int, default=70, help="Alert threshold. Default: 70")
+    parser.add_argument("--threshold", type=int, default=50, help="Alert threshold. Default: 50")
     parser.add_argument("--json", dest="json_file", help="Save JSON report to file")
     parser.add_argument("--html", dest="html_file", help="Save HTML report to file")
     parser.add_argument("--verbose", action="store_true", help="Print full terminal output")
@@ -42,16 +42,20 @@ def print_verbose(result: dict) -> None:
     target = result["target"]
     tech = result.get("technology_hints", [])
     findings = result.get("findings", [])
+    note = result.get("note")
 
     color = Fore.GREEN
-    if score < 75:
+    if score < 85:
         color = Fore.YELLOW
-    if score < 60:
+    if score < 50:
         color = Fore.RED
 
     print(f"{Fore.CYAN}Target:{Style.RESET_ALL} {target}")
     print(f"{Fore.CYAN}Score:{Style.RESET_ALL} {color}{score}/100{Style.RESET_ALL}")
     print(f"{Fore.CYAN}Level:{Style.RESET_ALL} {level}")
+
+    if note:
+        print(f"{Fore.YELLOW}Note:{Style.RESET_ALL} {note}")
 
     if tech:
         print(f"{Fore.CYAN}Technology hints:{Style.RESET_ALL}")
@@ -61,12 +65,21 @@ def print_verbose(result: dict) -> None:
     if findings:
         print(f"{Fore.CYAN}Findings:{Style.RESET_ALL}")
         for item in findings:
-            sev_color = Fore.YELLOW
-            if item["severity"] == "medium":
+            sev_color = Fore.BLUE
+            if item["severity"] == "low":
+                sev_color = Fore.YELLOW
+            elif item["severity"] == "medium":
                 sev_color = Fore.LIGHTRED_EX
-            if item["severity"] == "high":
+            elif item["severity"] == "high":
                 sev_color = Fore.RED
-            print(f"  - {item['title']} [{sev_color}{item['severity']}{Style.RESET_ALL}] (-{item['penalty']})")
+            elif item["severity"] == "info":
+                sev_color = Fore.CYAN
+
+            print(
+                f"  - {item['title']} "
+                f"[{sev_color}{item['severity']}{Style.RESET_ALL}] "
+                f"(-{item['penalty']})"
+            )
             print(f"    {item['detail']}")
     else:
         print(f"{Fore.GREEN}No findings detected.{Style.RESET_ALL}")
@@ -91,7 +104,11 @@ def main() -> None:
     if args.banner:
         print(BANNER)
 
-    scanner = WebSiteTesterScanner(url=url, timeout=args.timeout, threshold=args.threshold)
+    scanner = WebSiteTesterScanner(
+        url=url,
+        timeout=args.timeout,
+        threshold=args.threshold
+    )
     result = scanner.run()
 
     if args.json_file:
