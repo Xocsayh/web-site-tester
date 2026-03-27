@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "web-site-tester"
+version = "1.0.0"
+description = "Passive website security audit CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Ahmet" }
+]
+dependencies = [
+  "requests>=2.31.0",
+  "beautifulsoup4>=4.12.0",
+  "colorama>=0.4.6"
+]
+keywords = ["security", "audit", "cli", "kali", "linux", "headers", "passive"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: POSIX :: Linux",
+  "Environment :: Console",
+  "Topic :: Security",
+  "License :: OSI Approved :: MIT License"
+]
+
+[project.scripts]
+web-site-tester = "web_site_tester.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["web_site_tester*"]
