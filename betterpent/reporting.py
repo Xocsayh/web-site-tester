@@ -67,7 +67,7 @@ def render_html(data: dict) -> str:
             f"<td class='pen'>{'-' + _e(f.get('penalty')) if f.get('penalty') else ''}</td>"
             "</tr>"
         )
-    findings_html = "\n".join(rows) or "<tr><td colspan='5' class='ok'>No findings. The monster went home hungry.</td></tr>"
+    findings_html = "\n".join(rows) or "<tr><td colspan='5' class='ok'>No findings. The red team went home bored.</td></tr>"
 
     tech = "".join(f"<code>{_e(t)}</code> " for t in data.get("technology_hints", [])) or "<span class='muted'>None detected</span>"
 
@@ -106,11 +106,11 @@ def render_html(data: dict) -> str:
 <html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
-<title>CookieMonster report - {_e(data.get('final_url'))}</title><style>{_CSS}</style></head>
+<title>BetterPent report - {_e(data.get('final_url'))}</title><style>{_CSS}</style></head>
 <body><div class="wrap">
 <div class="card"><div class="hero">
 <div class="score {score_cls}">{_e(score if score is not None else '--')}<span class="muted" style="font-size:20px">/100</span></div>
-<div><h1>CookieMonster report</h1>
+<div><h1>BetterPent report</h1>
 <div class="muted">Target: <code>{_e(data.get('final_url'))}</code>{redirected}</div>
 <div class="muted">Scanned {_e(data.get('scanned_at'))} &middot; level <strong>{_e(data.get('level'))}</strong></div>
 <div>{_e(data.get('mood', ''))}</div></div></div>
@@ -120,7 +120,7 @@ def render_html(data: dict) -> str:
 <thead><tr><th>Severity</th><th>Finding</th><th>Detail</th><th>How to fix</th><th>Score</th></tr></thead>
 <tbody>{findings_html}</tbody></table></div></div>
 <div class="card"><h2>Details</h2><div class="grid">{details or "<span class='muted'>-</span>"}</div></div>
-<footer>CookieMonster {_e(data.get('version'))} &middot; passive audit &middot; only scan sites you are allowed to test</footer>
+<footer>BetterPent {_e(data.get('version'))} &middot; passive audit &middot; only scan sites you are allowed to test</footer>
 </div></body></html>
 """
 

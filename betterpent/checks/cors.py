@@ -1,7 +1,7 @@
 """CORS misconfiguration: does the site trust any Origin?"""
 from __future__ import annotations
 
-EVIL_ORIGIN = "https://cookie-thief.cookiemonster.invalid"
+EVIL_ORIGIN = "https://evil-origin.betterpent.invalid"
 
 
 def check_cors(scan) -> None:

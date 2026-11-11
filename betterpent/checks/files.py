@@ -10,7 +10,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
-from cookiemonster.scanner import Probe
+from betterpent.scanner import Probe
 
 
 # ---- well-known files -------------------------------------------------------

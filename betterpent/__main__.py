@@ -1,4 +1,4 @@
-from cookiemonster.cli import main
+from betterpent.cli import main
 
 if __name__ == "__main__":
     main()

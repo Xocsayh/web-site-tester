@@ -12,14 +12,14 @@ import unittest
 from contextlib import redirect_stdout
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from cookiemonster.checks import (
+from betterpent.checks import (
     check_cookies, check_cors, check_exposed_files, check_forms, check_headers,
     check_links, check_mixed_content, check_performance, check_well_known, detect_technology,
 )
-from cookiemonster.cli import main
-from cookiemonster.reporting import render_html
-from cookiemonster.scanner import Scan, ScanOptions
-from cookiemonster.utils import days_until, normalize_url, parse_set_cookie
+from betterpent.cli import main
+from betterpent.reporting import render_html
+from betterpent.scanner import Scan, ScanOptions
+from betterpent.utils import days_until, normalize_url, parse_set_cookie
 
 LOCAL_CHECKS = [detect_technology, check_headers, check_cookies, check_forms, check_mixed_content,
                 check_cors, check_well_known, check_exposed_files, check_links, check_performance]
@@ -115,7 +115,7 @@ class ScanTest(unittest.TestCase):
         try:
             host = site.url.split("://", 1)[1]
             r = Scan("https://" + host, ScanOptions(timeout=3, http_fallback=True)).run(
-                [__import__("cookiemonster.checks", fromlist=["check_https"]).check_https])
+                [__import__("betterpent.checks", fromlist=["check_https"]).check_https])
             r2 = Scan("https://" + host, ScanOptions(timeout=3, http_fallback=False)).run([])
         finally:
             site.close()
@@ -146,7 +146,7 @@ class ScanTest(unittest.TestCase):
             "/.well-known/security.txt": (200, [("Content-Type", "text/plain")], "Contact: mailto:a@b.c\n"),
             "/robots.txt": (200, [("Content-Type", "text/plain")], "User-agent: *\nDisallow:\n"),
             "/sitemap.xml": (200, [("Content-Type", "application/xml")], "<urlset></urlset>"),
-        }, server="monster")
+        }, server="hardened")
         penalised = [f for f in r["findings"] if f["penalty"]]
         self.assertEqual(penalised, [], penalised)
         self.assertEqual(r["score"], 100)
@@ -279,7 +279,7 @@ class CliTest(unittest.TestCase):
         finally:
             site.close()
         data = json.loads(buf.getvalue())
-        self.assertEqual(data["tool"], "CookieMonster")
+        self.assertEqual(data["tool"], "BetterPent")
         self.assertEqual(cm.exception.code, 1)  # score < 101
 
     def test_unreachable_exit_code(self):

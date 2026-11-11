@@ -1,7 +1,7 @@
-"""Cookie flags. The monster's favourite part."""
+"""Cookie flags: Secure, HttpOnly, SameSite."""
 from __future__ import annotations
 
-from cookiemonster.utils import parse_set_cookie, set_cookie_headers
+from betterpent.utils import parse_set_cookie, set_cookie_headers
 
 SENSITIVE_WORDS = ("sess", "auth", "token", "jwt", "login", "sid", "remember", "csrf", "xsrf")
 
@@ -29,14 +29,14 @@ def check_cookies(scan) -> None:
         if "secure" not in attrs and scan.is_https:
             scan.add(f"cookie_secure_{name}", f"Cookie without Secure flag: {name}",
                      "medium" if sensitive else "low", 10 if sensitive else 4,
-                     f"This {kind} can travel over plain HTTP, where anyone on the network can nom it.",
+                     f"This {kind} can travel over plain HTTP, where anyone on the network can read it.",
                      "Add the Secure attribute.", cat)
 
         if "httponly" not in attrs and sensitive:
             # Non-sensitive cookies are often read by JS on purpose (theme, consent...)
             scan.add(f"cookie_httponly_{name}", f"Cookie without HttpOnly flag: {name}",
                      "medium", 8,
-                     "Any JavaScript on the page (including injected scripts) can eat this cookie.",
+                     "Any JavaScript on the page (including injected scripts) can read this cookie.",
                      "Add the HttpOnly attribute.", cat)
 
         samesite = attrs.get("samesite")

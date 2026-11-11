@@ -5,23 +5,22 @@ import sys
 
 from colorama import Fore, Style, init
 
-from cookiemonster import __version__
-from cookiemonster.reporting import save_html, save_json
-from cookiemonster.scanner import USER_AGENT, Scan, ScanOptions
-from cookiemonster.utils import normalize_url
+from betterpent import __version__
+from betterpent.reporting import save_html, save_json
+from betterpent.scanner import USER_AGENT, Scan, ScanOptions
+from betterpent.utils import normalize_url
 
 EXIT_OK, EXIT_BELOW_THRESHOLD, EXIT_UNREACHABLE, EXIT_USAGE = 0, 1, 2, 3
 
 BANNER = rf"""{Fore.BLUE}
-   ____            _    _      __  __                 _
-  / ___|___   ___ | | _(_) ___|  \/  | ___  _ __  ___| |_ ___ _ __
- | |   / _ \ / _ \| |/ / |/ _ \ |\/| |/ _ \| '_ \/ __| __/ _ \ '__|
- | |__| (_) | (_) |   <| |  __/ |  | | (_) | | | \__ \ ||  __/ |
-  \____\___/ \___/|_|\_\_|\___|_|  |_|\___/|_| |_|___/\__\___|_|
-{Fore.YELLOW}        .-""-.
-       / o  o \    Om nom nom... sniffing your cookies (passively).
-       \ .__. /    v{__version__} - only scan sites you are allowed to test.
-        '-..-'{Style.RESET_ALL}
+  ____       _   _            ____            _
+ | __ )  ___| |_| |_ ___ _ __|  _ \ ___ _ __ | |_
+ |  _ \ / _ \ __| __/ _ \ '__| |_) / _ \ '_ \| __|
+ | |_) |  __/ |_| ||  __/ |  |  __/  __/ | | | |_
+ |____/ \___|\__|\__\___|_|  |_|   \___|_| |_|\__|
+{Fore.YELLOW}
+   Pentest, but better: we look, we never touch.
+   v{__version__} - only scan sites you are allowed to test.{Style.RESET_ALL}
 """
 
 SEV_COLOR = {"high": Fore.RED, "medium": Fore.LIGHTRED_EX, "low": Fore.YELLOW, "info": Fore.CYAN}
@@ -29,8 +28,8 @@ SEV_COLOR = {"high": Fore.RED, "medium": Fore.LIGHTRED_EX, "low": Fore.YELLOW, "
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="cookiemonster",
-        description="CookieMonster - passive website security auditor. Om nom nom.",
+        prog="betterpent",
+        description="BetterPent - passive website security auditor. Looks, never touches.",
         epilog="Exit codes: 0 ok, 1 score below threshold, 2 site unreachable, 3 bad usage.",
     )
     p.add_argument("target", nargs="?", help="Target URL or hostname (e.g. example.com)")
@@ -50,7 +49,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("-k", "--insecure", action="store_true",
                    help="Do not verify TLS certificates (still reported as a finding)")
     p.add_argument("--user-agent", default=USER_AGENT, help="Custom User-Agent")
-    p.add_argument("--version", action="version", version=f"CookieMonster {__version__}")
+    p.add_argument("--version", action="version", version=f"BetterPent {__version__}")
     return p
 
 
@@ -96,7 +95,7 @@ def print_verbose(result: dict) -> None:
 
     findings = result["findings"]
     if not findings:
-        print(c(Fore.GREEN, "\nNo findings. The monster went home hungry."))
+        print(c(Fore.GREEN, "\nNo findings. The red team went home bored."))
     else:
         print()
         for f in findings:
@@ -120,12 +119,12 @@ def main(argv: list[str] | None = None) -> None:
     raw = args.url or args.target
     if not raw:
         parser.print_usage(sys.stderr)
-        print("cookiemonster: error: a target URL is required (e.g. cookiemonster example.com)", file=sys.stderr)
+        print("betterpent: error: a target URL is required (e.g. betterpent example.com)", file=sys.stderr)
         sys.exit(EXIT_USAGE)
     try:
         url = normalize_url(raw)
     except ValueError as exc:
-        print(f"cookiemonster: error: {exc}", file=sys.stderr)
+        print(f"betterpent: error: {exc}", file=sys.stderr)
         sys.exit(EXIT_USAGE)
 
     json_to_stdout = args.json_file == "-"

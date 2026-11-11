@@ -1,12 +1,12 @@
-# 🍪 CookieMonster
+# 🛡️ BetterPent
 
-> *Om nom nom... sniffing your cookies (passively).*
+> *Pentest, but better: we look, we never touch.*
 
-**CookieMonster** is a passive website security auditor for the terminal (built for Kali Linux, works on any Linux/macOS with Python 3.10+).
-It reads what a website sends back and tells you what the monster could eat — **without attacking anything**: no payloads, no brute force, no fuzzing.
+**BetterPent** is a passive website security auditor for the terminal (built for Kali Linux, works on any Linux/macOS with Python 3.10+).
+It reads what a website sends back and tells you what an attacker would see — **without attacking anything**: no payloads, no brute force, no fuzzing.
 
-**CookieMonster**, terminal için pasif bir web sitesi güvenlik denetim aracıdır (Kali Linux için yazıldı, Python 3.10+ olan her Linux/macOS'ta çalışır).
-Sitenin döndürdüğü yanıtları okur ve "canavarın neyi yiyebileceğini" söyler — **hiçbir saldırı yapmadan**: payload yok, brute force yok, fuzzing yok.
+**BetterPent**, terminal için pasif bir web sitesi güvenlik denetim aracıdır (Kali Linux için yazıldı, Python 3.10+ olan her Linux/macOS'ta çalışır).
+Sitenin döndürdüğü yanıtları okur ve bir saldırganın neler görebileceğini söyler — **hiçbir saldırı yapmadan**: payload yok, brute force yok, fuzzing yok.
 
 > ⚠️ Only scan websites you own or have written permission to test. / Sadece sahibi olduğun veya yazılı izin aldığın siteleri tara.
 
@@ -19,7 +19,7 @@ Sitenin döndürdüğü yanıtları okur ve "canavarın neyi yiyebileceğini" s�
 | **Transport** | HTTPS used, HTTP → HTTPS redirect, HTTPS → HTTP downgrade in redirects |
 | **TLS** | Certificate trust, expiry (days left), negotiated TLS version, legacy TLS 1.0/1.1 accepted |
 | **Headers** | CSP (+ weak `unsafe-inline`/`unsafe-eval`), HSTS (+ short max-age), clickjacking (X-Frame-Options **or** CSP `frame-ancestors`), nosniff, Referrer-Policy, Permissions-Policy, version leaks (`Server`, `X-Powered-By`, ...) |
-| **Cookies** 🍪 | Secure / HttpOnly / SameSite, `SameSite=None` without Secure — including cookies set during redirects |
+| **Cookies** | Secure / HttpOnly / SameSite, `SameSite=None` without Secure — including cookies set during redirects |
 | **Forms** | Login form over HTTP, login via GET, missing CSRF token hint |
 | **Mixed content** | Scripts/styles/iframes (active) and images/media (passive) loaded over HTTP on an HTTPS page |
 | **CORS** | Arbitrary `Origin` reflected, with or without credentials |
@@ -44,7 +44,7 @@ Kali'nin sistem Python'u pip ile doğrudan paket kurdurmaz; **pipx** (önerilen)
 sudo apt install -y pipx git
 pipx ensurepath
 pipx install git+https://github.com/Xocsayh/web-site-tester.git
-cookiemonster --version
+betterpent --version
 ```
 
 ```bash
@@ -55,19 +55,19 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install .
 ```
 
-Update / Güncelle: `pipx upgrade cookiemonster-audit` (or `pipx reinstall cookiemonster-audit`)
+Update / Güncelle: `pipx upgrade betterpent` (or `pipx reinstall betterpent`)
 
 ---
 
 ## 🚀 Usage / Kullanım
 
 ```bash
-cookiemonster example.com                 # short summary / kısa özet
-cookiemonster example.com -v              # every finding + how to fix / tüm bulgular + çözüm
-cookiemonster example.com -v --banner     # with the monster / canavarlı
-cookiemonster https://example.com --html report.html --json report.json
-cookiemonster example.com --json - | jq '.findings[] | select(.severity=="high")'
-cookiemonster example.com -q --threshold 70 || echo "needs work"   # for scripts/CI
+betterpent example.com                 # short summary / kısa özet
+betterpent example.com -v              # every finding + how to fix / tüm bulgular + çözüm
+betterpent example.com -v --banner     # with banner / banner ile
+betterpent https://example.com --html report.html --json report.json
+betterpent example.com --json - | jq '.findings[] | select(.severity=="high")'
+betterpent example.com -q --threshold 70 || echo "needs work"   # for scripts/CI
 ```
 
 | Option | Description |
@@ -99,7 +99,7 @@ python -m unittest discover -s tests -v
 
 Tests run fully offline against a local HTTP server (no internet needed).
 
-New checks live in `cookiemonster/checks/` — a check is just a function `check_x(scan)` that calls `scan.add(...)`; register it in `checks/__init__.py`.
+New checks live in `betterpent/checks/` — a check is just a function `check_x(scan)` that calls `scan.add(...)`; register it in `checks/__init__.py`.
 
 ---
 
@@ -107,7 +107,5 @@ New checks live in `cookiemonster/checks/` — a check is just a function `check
 
 Thank you for reviewing and contributing. This tool is for **educational and authorized testing purposes only**.
 Projeyi inceleyip katkı sağladığınız için teşekkürler. Bu araç **yalnızca eğitim ve izinli testler** içindir.
-
-*CookieMonster is a fan-made name for a security tool and is not affiliated with Sesame Street or Sesame Workshop.*
 
 MIT License © 2026 Ahmet Kugu

@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from cookiemonster.utils import days_until
+from betterpent.utils import days_until
 
 
 def check_https(scan) -> None:

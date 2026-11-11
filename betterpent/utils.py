@@ -7,10 +7,10 @@ from urllib.parse import urlparse
 SEVERITY_ORDER = {"high": 0, "medium": 1, "low": 2, "info": 3}
 
 LEVEL_MOODS = {
-    "good": "Delicious. Nothing for the monster to eat here.",
-    "fair": "A bit crumbly around the edges.",
-    "needs_improvement": "Half-eaten. The monster had a snack.",
-    "critical": "Om nom nom - the monster ate the whole jar.",
+    "good": "Locked tight. Nothing to write home about.",
+    "fair": "A few doors left unlocked.",
+    "needs_improvement": "A red team would have a good day here.",
+    "critical": "Game over - the red team is already inside.",
 }
 
 

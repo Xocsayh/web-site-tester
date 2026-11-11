@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cookiemonster-audit"
+name = "betterpent"
 dynamic = ["version"]
-description = "CookieMonster - passive website security auditor for the terminal. Om nom nom."
+description = "BetterPent - passive website security auditor for the terminal."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -28,10 +28,10 @@ classifiers = [
 Homepage = "https://github.com/Xocsayh/web-site-tester"
 
 [project.scripts]
-cookiemonster = "cookiemonster.cli:main"
+betterpent = "betterpent.cli:main"
 
 [tool.setuptools.dynamic]
-version = { attr = "cookiemonster.__version__" }
+version = { attr = "betterpent.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["cookiemonster*"]
+include = ["betterpent*"]

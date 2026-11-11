@@ -8,8 +8,8 @@ from urllib.parse import urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from cookiemonster import __version__
-from cookiemonster.utils import (
+from betterpent import __version__
+from betterpent.utils import (
     LEVEL_MOODS,
     SEVERITY_ORDER,
     base_url,
@@ -17,7 +17,7 @@ from cookiemonster.utils import (
     detect_level,
 )
 
-USER_AGENT = f"CookieMonster/{__version__} (+passive security audit; om nom nom)"
+USER_AGENT = f"BetterPent/{__version__} (+passive security audit)"
 
 # Hosts behind these platforms often enforce controls at the edge, so header
 # findings are more likely to be false positives.
@@ -163,7 +163,7 @@ class Scan:
         return True
 
     def run(self, checks: list[Callable[["Scan"], None]] | None = None) -> dict[str, Any]:
-        from cookiemonster.checks import ALL_CHECKS
+        from betterpent.checks import ALL_CHECKS
 
         started = datetime.now(timezone.utc)
         if self.fetch():
@@ -178,7 +178,7 @@ class Scan:
     def build_result(self, started: datetime) -> dict[str, Any]:
         findings = sorted(self.findings, key=lambda f: (SEVERITY_ORDER.get(f.severity, 9), -f.penalty))
         result: dict[str, Any] = {
-            "tool": "CookieMonster",
+            "tool": "BetterPent",
             "version": __version__,
             "target": self.url,
             "final_url": self.final_url,
